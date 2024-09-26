@@ -4,9 +4,11 @@ const dbConfig = {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     server: process.env.DB_SERVER,
-    database: process.env.DB_NAME,
+    options: {
+        encrypt: true, // Use true if you're on Azure
+        trustServerCertificate: true, // Set to true for local dev / self-signed certs
+    },
 };
-
 const connectDB = async () => {
     try {
         await sql.connect(dbConfig);

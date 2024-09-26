@@ -1,9 +1,9 @@
-const path = require('path')
+
+require('dotenv').config();const path = require('path')
 const express = require('express');
 const bodyParser = require('body-parser');
 const { connectDB } = require('./config/db');
 const expenseRoutes = require('./routes/expenseRoutes');
-require('dotenv').config();
 
 const app = express();
 

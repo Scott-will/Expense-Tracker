@@ -6,7 +6,7 @@ CREATE TABLE Expenses (
     Date DATETIME DEFAULT GETDATE()
 );
 
-Create TABLE Types(
+Create TABLE Categories(
     Id INT PRIMARY KEY IDENTITY(1,1),
     Type NVARCHAR(255) Not NULL
 )
