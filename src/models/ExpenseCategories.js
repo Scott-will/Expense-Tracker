@@ -28,9 +28,9 @@ class ExpenseCategories{
         }
     }
 
-    static async updateExpenseCategory(id) {
+    static async updateExpenseCategory(categoryObj) {
         try{
-            const result = await sql.query`Update ExpenseCategories SET category = (${category}) Where Id = ${id}`;
+            const result = await sql.query`Update ExpenseCategories SET category = (${categoryObj.category}) Where Id = ${categoryObj.id}`;
             return result.rowsAffected;
         }
         catch(error){

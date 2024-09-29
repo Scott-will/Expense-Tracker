@@ -1,5 +1,6 @@
 const ExpenseCategories = require('../models/ExpenseCategories');
-const ExpenseCategoryQueryParams = require('./queryParams/ExpenseCategoryQueryParams')
+const ExpenseCategoryQueryParams = require('./queryParams/ExpenseCategoryQueryParams');
+const GenerateError = require('./controllerHelpers/controllerHelpers');
 
 //Get
 exports.getCategories = async (req, res) => {
@@ -17,7 +18,6 @@ exports.getCategories = async (req, res) => {
         return res;
     }
     const queryParams = new ExpenseCategoryQueryParams(req.query)
-    console.log(queryParams)
     if(queryParams.Id){
         try{
             const categories = await ExpenseCategories.getCategoryById(queryParams.Id)
@@ -48,7 +48,6 @@ exports.getCategories = async (req, res) => {
 //add
 exports.addExpenseCategory = async(req, res) => {
     const categoryObj =req.body
-    console.log(categoryObj)
     try{
         await ExpenseCategories.addExpenseCategory(categoryObj.category)
         res.status(201).json({ message: 'Expense category added successfully' });
@@ -64,7 +63,6 @@ exports.deleteCategory = async(req, res) => {
         res = GenerateError(res)
     }
     const queryParams = new ExpenseCategoryQueryParams(req.query)
-    console.log(queryParams)
     if(queryParams.Id){
         try{
             const categories = await ExpenseCategories.deleteCategoryById(queryParams.Id)
@@ -87,17 +85,11 @@ exports.deleteCategory = async(req, res) => {
 
 exports.updateCategory = async (req, res) => {
     const categoryObj =req.body
-    console.log(categoryObj)
     try{
-        await ExpenseCategories.updateExpenseCategory(categoryObj.Id)
+        await ExpenseCategories.updateExpenseCategory(categoryObj)
         res.status(201).json({ message: 'Expense category updated successfully' });
     }
     catch(error) {
         res = GenerateError(res)
     }   
-}
-
-//helper
-function GenerateError(res){
-    res.status(500).json({ message: 'Server error' });
 }
