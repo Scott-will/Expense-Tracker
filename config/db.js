@@ -13,7 +13,6 @@ const connectDB = async () => {
     try {
         await sql.connect(dbConfig);
         console.log('SQL Server connected');
-        //await initializeDatabase();
     } catch (error) {
         console.error('SQL Server connection failed:', error);
         process.exit(1);

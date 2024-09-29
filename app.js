@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { connectDB } = require('./config/db');
 const expenseRoutes = require('./routes/expenseRoutes');
+const expenseCategoriesRoutes = require('./routes/expenseCategoriesRoutes')
 
 const app = express();
 
@@ -15,8 +16,11 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/expenses', expenseRoutes);
+app.use('/api/expense-categories', expenseCategoriesRoutes)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+module.exports = app

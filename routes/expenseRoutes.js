@@ -12,7 +12,7 @@ const {
 // Define routes
 router.get('/', getExpenses); // GET all expenses
 router.post('/', addExpense); // POST a new expense
-router.put('/:id', updateExpense); // PUT (update) an existing expense
-router.delete('/:id', deleteExpense); // DELETE an expense
+router.put('/', updateExpense); // PUT (update) an existing expense
+router.delete('/', deleteExpense); // DELETE an expense
 
 module.exports = router;
