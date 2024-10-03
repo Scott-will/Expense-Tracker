@@ -7,11 +7,13 @@ const ExpenseView = require('../views/expenseView')
 exports.GetExpenses = async (req, res) => {
     if (Object.keys(req.query).length === 0) {
         try {
-            const expenses = await Expense.GetAllExpenses();
+            const expenses = await Expense.GetExpense();
             res.json(expenses);
             return res;
         } catch (error) {
+            console.log(error)
             res = GenerateError(res)
+            return res;
         }
     }
     const queryParams = new ExpenseQueryParams(req.query)
@@ -21,7 +23,9 @@ exports.GetExpenses = async (req, res) => {
             res.json(expense)
         }
         catch(error){
+            console.log(error)
             res = GenerateError(res)
+            return res;
         }
         
     }
@@ -31,6 +35,7 @@ exports.GetExpenses = async (req, res) => {
             res.json(expenses)
         }
         catch(error){
+            console.log(error)
             res = GenerateError(res)
         }
     }
@@ -43,6 +48,7 @@ exports.AddExpense = async (req, res) => {
         await Expense.AddExpense(expense);
         res.status(201).json({ message: 'Expense added successfully' });
     } catch (error) {
+        console.log(error)
         res = GenerateError()
     }
 };

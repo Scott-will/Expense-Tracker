@@ -2,7 +2,9 @@ const { sql } = require('../config/db');
 
 class Expense {
     static async GetExpense() {
-        const result = await sql.query`SELECT * FROM  ${process.env.DB_NAME}.dbo.Expenses`;
+        const query = `SELECT * FROM  ${process.env.DB_NAME}.dbo.Expenses`
+        console.log(query)
+        const result = await sql.query(query);
         return result.recordset;
     }
 
