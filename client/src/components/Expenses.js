@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { DataGrid } from '@mui/x-data-grid';
 
 export default function ExpenseList(){
   
@@ -18,23 +19,6 @@ export default function ExpenseList(){
       console.error(error)
       console.error('Promise rejected');
     }   
-    
-  }
-
-  async function handleDelete(id) {
-    try {
-      const response = await fetch(`http://localhost:5000/api/expenses/${id}`, {
-        method:'DELETE'
-      });
-      if (response.ok) {
-        console.log('Promise resolved and HTTP status is successful');
-        setExpenses(response.body)
-      } else {
-        console.error('Promise resolved but HTTP status failed');
-      }
-    } catch {
-      console.error('Promise rejected');
-    }  
   }
 
   useEffect(() => {
@@ -43,35 +27,28 @@ export default function ExpenseList(){
     }
     loadExpenses();
     }, []);
+    
+    function getRowId(row){
+      return row.Id;
+    }
+    const columns = [
+      { field: "CategoryId" },
+      { field: "Amount" },
+      { field: "Date" },
+      { field: "Description" }
+    ]
 
   return (
-    <div className="expense-list">
-      {expenses && expenses.length > 0 ? (
-        expenses.map(expense => (
-          <ExpenseItem key={expense.Id} expense={expense} onDelete={handleDelete} />
-        ))
-      ) : (
-        <p>No expenses available.</p> // Optional: display a message when no expenses
-      )}
-    </div>
+    expenses && expenses.length != 0 ?
+    <DataGrid
+    getRowId={getRowId}
+    columns={columns}
+    rows={expenses}
+    pageSizeOptions={[5, 10]}
+    checkboxSelection
+    sx={{border:0}}/>
+    : <p>No Expense found</p>
+    
   );
   
 } 
-
-const ExpenseItem = ({ expense, onDelete }) => {
-  const { CategoryId, Amount, Date, Description } = expense;
-  
-  const handleDelete = (id) => {
-    onDelete(id);
-  };
-
-  return (
-    <div className="expense-item">
-      <p>Category: {CategoryId}</p>
-      <p>Amount: ${Amount}</p>
-      <p>Date: {Date}</p>
-      <p>Description: {Description}</p>
-      <button onClick={handleDelete}>Delete</button>
-    </div>
-  );
-};

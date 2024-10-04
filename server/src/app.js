@@ -15,7 +15,6 @@ connectDB();
 app.use(bodyParser.json());
 
 app.use('/api/expenses', expenseRoutes);
-app.use('/api/expense-categories', expenseCategoriesRoutes)
-
+app.use('/api/expense-categories', expenseCategoriesRoutes);
 
 module.exports = app

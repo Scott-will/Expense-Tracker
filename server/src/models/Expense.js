@@ -3,7 +3,6 @@ const { sql } = require('../config/db');
 class Expense {
     static async GetExpense() {
         const query = `SELECT * FROM  ${process.env.DB_NAME}.dbo.Expenses`
-        console.log(query)
         const result = await sql.query(query);
         return result.recordset;
     }
@@ -20,8 +19,7 @@ class Expense {
     }
 
     static async AddExpense(expenseView) {
-        const query = `INSERT INTO ${process.env.DB_NAME}.dbo.Expenses (categoryId, amount, date, description) VALUES (${expenseView.Category}, ${expenseView.Amount}, '${expenseView.Date}', '${expenseView.Description}')`
-        console.log(query)
+        const query = `INSERT INTO ${process.env.DB_NAME}.dbo.Expenses (Category, Amount, Date, Description) VALUES (${expenseView.Category}, ${expenseView.Amount}, '${expenseView.Date}', '${expenseView.Description}')`
         try{
             const result = await sql.query(query);
             return result.rowsAffected;

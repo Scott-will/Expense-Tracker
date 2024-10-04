@@ -1,0 +1,49 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Expense Tracker
+  description: Simple Expense Tracker
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://localhost:5000/api/
+tags:
+  - name: CRUD operations
+paths:
+  /expense-categories:
+    get:
+      tags:
+        - CRUD operations
+      description: Get Expense Categories
+      operationId: getExpenseCategories
+      parameters: []
+      responses:
+        '200':
+          description: Expense categories retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/expenseCategory'
+components:
+  schemas:
+    expense:
+      type: object
+      required:
+        - CategoryId, Amount
+      properties:
+        CategoryId:
+          type: integer
+        Amount:
+          type: number
+        Date:
+          type: string
+        Description:
+          type: string
+    expenseCategory:
+      type: object
+      required:
+        - Category
+      properties:
+        Category:
+          type: string

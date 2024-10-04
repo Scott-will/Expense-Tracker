@@ -6,7 +6,8 @@ beforeAll(async () => {
     await sql.connect();
 
     try {
-        await sql.query`IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'ExpenseTrackerTest') 
+        await sql.query`DROP DATABASE IF EXISTS ExpenseTrackerTest;;
+IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'ExpenseTrackerTest') 
     BEGIN
     CREATE DATABASE [ExpenseTrackerTest]
     END;`
