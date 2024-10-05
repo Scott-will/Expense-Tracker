@@ -8,13 +8,11 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: http://localhost:5000/api/
-tags:
-  - name: CRUD operations
 paths:
   /expense-categories:
     get:
       tags:
-        - CRUD operations
+        - Expense Categories
       description: Get Expense Categories
       operationId: getExpenseCategories
       parameters: []
@@ -27,6 +25,68 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/expenseCategory'
+    delete:
+      tags:
+        - Expense Categories
+      description: Delete an expense Category
+      operationId: deleteExpenseCategory
+      parameters: 
+        - in: query
+          name: Id
+          schema:
+            type: integer
+          required: true
+          description: Id of Expense Category
+      responses:
+        '200':
+          description: Expense categories retrieved
+    post:
+      tags:
+        - Expense Categories
+      description: Add new expense Category
+      operationId: addExpenseCategory
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/expenseCategory'
+                  
+          
+      responses:
+        '200':
+          description: Expense categories retrieved
+    put:
+      tags:
+        - Expense Categories
+      description: Update an expense Category
+      operationId: updateExpenseCategory
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/expenseCategory'
+      responses:
+        '200':
+          description: Expense categories retrieved
+        
+  /expenses:
+    get:
+      tags:
+        - Expenses
+      description: Get list of expenses
+      operationId: getExpenses
+      parameters: []
+      responses:
+        '200':
+          description: Expenses retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/expense'
 components:
   schemas:
     expense:
