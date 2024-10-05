@@ -1,0 +1,1 @@
+openapi-generator-cli generate -i doc.yaml -g typescript-axios -o ./api/client
