@@ -1,8 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import { ExpensesApi, Expense } from '../apiClient'
 import { Table, THead, TH, TR, TD } from '../styles/ExpenseGrid.style';
+import ExpenseCategoryCache from '../cache/ExpenseCategoriesCache';
 
-const ExpenseGrid = () => {
+interface ExpenseGridProps{
+  expenseCategoriesCache: ExpenseCategoryCache
+}
+
+const ExpenseGrid: React.FC<ExpenseGridProps> = ({expenseCategoriesCache}) => {
    const [expenseState, setExpenseState] = useState<Expense[]>();
    useEffect(() =>{
     getExpenses();
@@ -78,7 +83,7 @@ function SortByAmount(column : keyof Expense) : Expense[] | undefined{
       <tbody>
         {expenseState?.map(row => (
           <TR key={row.CategoryId}>
-            <TD>{row.CategoryId}</TD>
+            <TD>{expenseCategoriesCache.cache.get(Number(row.CategoryId))?.Category }</TD>
             <TD>{row.Amount}</TD>
             <TD>{row.Date}</TD>
             <TD>{row.Description}</TD>

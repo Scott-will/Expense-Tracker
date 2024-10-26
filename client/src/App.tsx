@@ -8,8 +8,8 @@ import ExpenseCategoryCache from './cache/ExpenseCategoriesCache';
 
 
 const App: React.FC = () => {
-  try{
-    const expenseCategoryCache = new ExpenseCategoryCache();
+  const expenseCategoryCache = new ExpenseCategoryCache();  
+  try{    
     expenseCategoryCache.GetExpenseCategories()
   }
   catch{
@@ -24,7 +24,7 @@ const App: React.FC = () => {
         </p>
       </header>
       <div>
-      <ExpenseGrid/>
+      <ExpenseGrid expenseCategoriesCache={expenseCategoryCache}/>
     </div>
     <div>
       <ExpenseCategoryList/>
