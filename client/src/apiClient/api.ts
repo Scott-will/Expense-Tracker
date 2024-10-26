@@ -66,6 +66,12 @@ export interface ExpenseCategory {
      * @memberof ExpenseCategory
      */
     'Category': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExpenseCategory
+     */
+    'Id'?: number;
 }
 
 /**
@@ -374,6 +380,41 @@ export class ExpenseCategoriesApi extends BaseAPI {
 export const ExpensesApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
+         * Add expense
+         * @param {Expense} expense 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addExpense: async (expense: Expense, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'expense' is not null or undefined
+            assertParamExists('addExpense', 'expense', expense)
+            const localVarPath = `/expenses`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(expense, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get list of expenses
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -413,6 +454,18 @@ export const ExpensesApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ExpensesApiAxiosParamCreator(configuration)
     return {
         /**
+         * Add expense
+         * @param {Expense} expense 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async addExpense(expense: Expense, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addExpense(expense, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExpensesApi.addExpense']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Get list of expenses
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -434,6 +487,15 @@ export const ExpensesApiFactory = function (configuration?: Configuration, baseP
     const localVarFp = ExpensesApiFp(configuration)
     return {
         /**
+         * Add expense
+         * @param {Expense} expense 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addExpense(expense: Expense, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.addExpense(expense, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Get list of expenses
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -451,6 +513,17 @@ export const ExpensesApiFactory = function (configuration?: Configuration, baseP
  * @extends {BaseAPI}
  */
 export class ExpensesApi extends BaseAPI {
+    /**
+     * Add expense
+     * @param {Expense} expense 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExpensesApi
+     */
+    public addExpense(expense: Expense, options?: RawAxiosRequestConfig) {
+        return ExpensesApiFp(this.configuration).addExpense(expense, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * Get list of expenses
      * @param {*} [options] Override http request option.

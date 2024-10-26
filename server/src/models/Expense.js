@@ -19,7 +19,7 @@ class Expense {
     }
 
     static async AddExpense(expenseView) {
-        const query = `INSERT INTO ${process.env.DB_NAME}.dbo.Expenses (Category, Amount, Date, Description) VALUES (${expenseView.Category}, ${expenseView.Amount}, '${expenseView.Date}', '${expenseView.Description}')`
+        const query = `INSERT INTO ${process.env.DB_NAME}.dbo.Expenses (CategoryId, Amount, Date, Description) VALUES (${expenseView.Category}, ${expenseView.Amount}, '${expenseView.Date}', '${expenseView.Description}')`
         try{
             const result = await sql.query(query);
             return result.rowsAffected;

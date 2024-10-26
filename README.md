@@ -2,7 +2,7 @@
 
 Simple app to track your expense
 
-# features
+# Features
 
-* Adding expense categories
+* dynamically add expense categories
 * Sorting by category, date or amount

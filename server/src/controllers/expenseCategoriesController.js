@@ -49,7 +49,7 @@ exports.getCategories = async (req, res) => {
 exports.addExpenseCategory = async(req, res) => {
     const categoryObj =req.body
     try{
-        await ExpenseCategories.addExpenseCategory(categoryObj.category)
+        await ExpenseCategories.addExpenseCategory(categoryObj.Category)
         res.status(201).json({ message: 'Expense category added successfully' });
     }
     catch(error) {

@@ -87,23 +87,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/expense'
-    post:
-      tags:
-        - Expenses
-      description: 
-        Add expense
-      operationId: 
-        addExpense
-      requestBody: 
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/expense'
-      responses:
-        '200':
-          description: Expense added
-          
 components:
   schemas:
     expense:
@@ -126,5 +109,5 @@ components:
       properties:
         Category:
           type: string
-        Id:no
+        Id:
           type: number

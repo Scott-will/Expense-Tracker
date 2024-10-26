@@ -1,10 +1,10 @@
 class ExpenseView{
     constructor(expenseView){
-        this.Id = expenseView.id
-        this.Category = expenseView.category;
-        this.Amount = expenseView.amount
-        this.Description = expenseView.description;
-        this.Date = expenseView.date
+        this.Id = expenseView.Id
+        this.Category = expenseView.CategoryId;
+        this.Amount = expenseView.Amount
+        this.Description = expenseView.Description;
+        this.Date = expenseView.Date
     }
 }
 
