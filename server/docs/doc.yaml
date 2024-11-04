@@ -103,6 +103,21 @@ paths:
       responses:
         '200':
           description: Expense added
+    delete:
+      tags:
+        - Expenses
+      description: Delete an expense 
+      operationId: deleteExpense
+      parameters: 
+        - in: query
+          name: Id
+          schema:
+            type: integer
+          required: true
+          description: Id of Expense
+      responses:
+        '200':
+          description: Expense deleted
           
 components:
   schemas:
@@ -111,6 +126,8 @@ components:
       required:
         - CategoryId, Amount
       properties:
+        Id: 
+          type: integer
         CategoryId:
           type: integer
         Amount:
@@ -126,5 +143,5 @@ components:
       properties:
         Category:
           type: string
-        Id:no
+        Id:
           type: number

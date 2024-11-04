@@ -34,6 +34,12 @@ export interface Expense {
      * @type {number}
      * @memberof Expense
      */
+    'Id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Expense
+     */
     'CategoryId'?: number;
     /**
      * 
@@ -415,6 +421,42 @@ export const ExpensesApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
+         * Delete an expense
+         * @param {number} id Id of Expense
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteExpense: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteExpense', 'id', id)
+            const localVarPath = `/expenses`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (id !== undefined) {
+                localVarQueryParameter['Id'] = id;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get list of expenses
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -466,6 +508,18 @@ export const ExpensesApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Delete an expense
+         * @param {number} id Id of Expense
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteExpense(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteExpense(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExpensesApi.deleteExpense']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Get list of expenses
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -496,6 +550,15 @@ export const ExpensesApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.addExpense(expense, options).then((request) => request(axios, basePath));
         },
         /**
+         * Delete an expense
+         * @param {number} id Id of Expense
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteExpense(id: number, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteExpense(id, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Get list of expenses
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -522,6 +585,17 @@ export class ExpensesApi extends BaseAPI {
      */
     public addExpense(expense: Expense, options?: RawAxiosRequestConfig) {
         return ExpensesApiFp(this.configuration).addExpense(expense, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Delete an expense
+     * @param {number} id Id of Expense
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExpensesApi
+     */
+    public deleteExpense(id: number, options?: RawAxiosRequestConfig) {
+        return ExpensesApiFp(this.configuration).deleteExpense(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

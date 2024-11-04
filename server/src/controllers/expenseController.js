@@ -1,6 +1,6 @@
 const Expense = require('../models/Expense');
 const GenerateError = require('./controllerHelpers/controllerHelpers');
-const ExpenseQueryParams = require('./queryParams/expenseQueryParams');
+const ExpenseQueryParams = require('./queryParams/ExpenseQueryParams');
 const ExpenseView = require('../views/expenseView')
 
 
@@ -54,7 +54,20 @@ exports.AddExpense = async (req, res) => {
 };
 
 exports.DeleteExpense = async (req, res) =>{
-
+    if(Object.keys(req.query).length == 0){
+        res.GenerateError(res)
+    }
+    const queryParams = new ExpenseQueryParams(req.query);
+    if(queryParams.Id){
+        try {
+            await Expense.DeleteExpense(queryParams.Id);
+            res.status(201).json({ message: 'Expense deleted successfully' });
+        } catch (error) {
+            console.log(error)
+            res = GenerateError()
+        }
+    }
+    
 }
 
 exports.UpdateExpense = async (req, res) => {

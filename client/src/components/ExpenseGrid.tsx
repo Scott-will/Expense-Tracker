@@ -9,6 +9,7 @@ interface ExpenseGridProps{
 
 const ExpenseGrid: React.FC<ExpenseGridProps> = ({expenseCategoriesCache}) => {
    const [expenseState, setExpenseState] = useState<Expense[]>();
+   const [selectedRows, setSelectedRows] = useState(new Set<number|undefined>());
    useEffect(() =>{
     getExpenses();
   }, []);
@@ -68,9 +69,41 @@ function SortByAmount(column : keyof Expense) : Expense[] | undefined{
     
 }
 
+const handleRowClick = (expenseId : number | undefined) =>{
+  if(!expenseId){
+    return;
+  }
+  setSelectedRows((prevSelected) =>{
+    const newSelected = new Set(prevSelected);
+    if(newSelected.has(expenseId)){
+      newSelected.delete(expenseId);
+    }
+    else{
+      newSelected.add(expenseId);
+    }
+    return newSelected;
+  })
+}
+
+async function DeleteExpenses(){
+  const api = new ExpensesApi();
+  const promises = Array.from(selectedRows).map(async (item) => {
+    try {
+      if(!item){
+        return;
+      }
+      const response = await api.deleteExpense(item);
+    } catch (error) {
+      console.error("Error fetching expense categories:", error);
+      // Optionally set an error state or display a message to the user
+    }
+  })
+  await Promise.all(promises);   
+}
   return(
     !expenseState || expenseState.length == 0 ? 
     <p>No Data To Show</p> :
+    <div>
     <Table>
       <THead>
         <TR>
@@ -82,7 +115,11 @@ function SortByAmount(column : keyof Expense) : Expense[] | undefined{
       </THead>
       <tbody>
         {expenseState?.map(row => (
-          <TR key={row.CategoryId}>
+          <TR key={row.CategoryId} 
+          onClick = {() => handleRowClick(row.Id)}
+          style={{backgroundColor : selectedRows.has(row.Id) ? '#e0f7fa' : 'transparent',
+            cursor : 'pointer'
+          }}>
             <TD>{expenseCategoriesCache.cache.get(Number(row.CategoryId))?.Category }</TD>
             <TD>{row.Amount}</TD>
             <TD>{row.Date}</TD>
@@ -91,7 +128,15 @@ function SortByAmount(column : keyof Expense) : Expense[] | undefined{
         ))}
       </tbody>
     </Table>
-  )
+    {selectedRows.size > 0 && ( // Conditionally render the button
+      <div style={{ marginTop: '20px' }}>
+        <button onClick={DeleteExpenses}>
+          Delete Expenses
+        </button>
+      </div>
+    )}
+    </div>
+)
 }
 
 export default ExpenseGrid

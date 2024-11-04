@@ -35,8 +35,9 @@ class Expense {
         return result.rowsAffected;
     }
 
-    static async delete(id) {
-        const result = await sql.query`Delete From  ${process.env.DB_NAME}.dbo.Expenses Where Id = id`;
+    static async DeleteExpense(id) {
+        const query = `Delete From  ${process.env.DB_NAME}.dbo.Expenses Where Id = ${id}`;
+        const result = await sql.query(query);
         return result.rowsAffected;
     }
 }
